@@ -1,0 +1,58 @@
+html {
+	box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+body {
+	margin: 0;
+	height: 100vh;
+	display: grid;
+}
+.outerContainer {
+	margin: 5% 0;
+	width: 40%;
+	max-width: 1000px;
+	display: grid;
+	align-self: center;
+	justify-self: center;
+}
+
+.playerDisplay {
+	align-self: center;
+	justify-self: center;
+	width: 100%;
+	margin-bottom: 6vw;
+	display: flex;
+	justify-content: space-between;
+}
+.playerButton {
+	font-size: 2.5vw;
+	justify-content: space-between;
+	padding: 2vw 5vw;
+	border-radius: 5rem;
+	background-color: cadetblue;
+}
+
+.gameGridContainer {
+	align-self: center;
+	justify-self: center;
+	width: 100%;
+	background-color: black;
+	display: grid;
+	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-gap: 2vw;
+}
+
+.square {
+	background-color: white;
+	height: 0;
+	padding-bottom: 100%;
+	text-align: center;
+	font-size: 10.5vw;
+	cursor: pointer;
+}
