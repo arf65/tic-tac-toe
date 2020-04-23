@@ -30,14 +30,15 @@ body {
 	justify-content: space-between;
 }
 .playerButton {
-	font-size: 2.5vw;
+	font-size: clamp(1.5rem, 2.5vw, 32px);
 	justify-content: space-between;
-	padding: 1vw 4vw;
+	padding: 1vw 3vw;
 	border-radius: 5rem;
 	background-color: cadetblue;
 }
 
 .gameGridContainer {
+	font-family: 'Fredoka One', sans-serif;
 	align-self: center;
 	justify-self: center;
 	width: 100%;
@@ -54,6 +55,7 @@ body {
 	padding-bottom: 100%;
 	text-align: center;
 	font-size: 10.5vw;
+	font-size: clamp(2rem, 10.5vw, 119px);
 	cursor: pointer;
 }
 
@@ -65,14 +67,35 @@ body {
 }
 .turnDisplay > h2 {
 	margin: 0;
+	font-size: clamp(2rem, 3vw, 50px);
 }
 .resetButton {
 	background-color: rgb(108, 29, 145);
 	color: white;
 	width: 45%;
-	padding: 1vw 4vw;
-	font-size: 2.5vw;
+	padding: 1vw 3vw;
+	font-size: clamp(1.5rem, 2.5vw, 32px);
 	border-radius: 5rem;
 	justify-self: center;
 	align-self: center;
+}
+
+@media only screen and (max-width: 800px) {
+	.outerContainer {
+		width: 60%;
+		max-width: 600px;
+	}
+	.square {
+		font-size: 15vw;
+	}
+}
+
+@media only screen and (max-width: 500px) {
+	.outerContainer {
+		width: 80%;
+		max-width: 400px;
+	}
+	.square {
+		font-size: 20vw;
+	}
 }

@@ -6,36 +6,29 @@ const gameBoard = (() => {
 const displayController = (() => {
 	//determines if the spot marked should be an X or an O based on who's turn it is
 	const markSpot = () => {
-		console.log(gameBoard.text + ' after reset button');
 		turnText = document.querySelector('.turnText');
 		turnText.textContent = 'Player 1 Turn';
 		const squares = document.querySelectorAll('.square');
 		const markPlayer = player();
-		let winStatus = false;
 		document.addEventListener('click', function printToGrid(event) {
 			if (event.target.matches('.square')) {
-				console.log(event.target);
 				for (let i = 0; i < squares.length; i++) {
 					if (event.target.matches(`.square${i}`)) {
-						let newMark;
-						if (markPlayer.playerTurn() === 'p1') {
-							if (markPlayer.winner() === false) {
+						if (markPlayer.winner() === false && event.target.textContent === '') {
+							let newMark;
+							if (markPlayer.playerTurn() === 'p1') {
 								newMark = 'X';
 								turnText.textContent = 'Player 2 Turn';
 							}
-						}
-						if (markPlayer.playerTurn() === 'p2') {
-							if (markPlayer.winner() === false) {
+							if (markPlayer.playerTurn() === 'p2') {
 								newMark = 'O';
 								turnText.textContent = 'Player 1 Turn';
 							}
+							gameBoard.text.splice(i, 1, newMark);
+							render();
 						}
-						console.log('new mark ' + newMark);
-						gameBoard.text.splice(i, 1, newMark);
-						render();
-						winStatus = markPlayer.winner();
-						if (winStatus !== false) {
-							turnText.textContent = winStatus;
+						if (markPlayer.winner() !== false) {
+							turnText.textContent = markPlayer.winner();
 						}
 					}
 				}
@@ -48,7 +41,6 @@ const displayController = (() => {
 		const resetButton = document.querySelector('.resetButton');
 		resetButton.addEventListener('click', function resetStuff() {
 			gameBoard.text = [ '', '', '', '', '', '', '', '', '' ];
-			console.log(gameBoard.text + ' from reset button');
 			text.textContent = 'Player 1 Turn';
 			render();
 		});
@@ -57,10 +49,8 @@ const displayController = (() => {
 	//prints X's and O's onto the screen
 	function render() {
 		const squares = document.querySelectorAll('.square');
-		console.log(gameBoard.text);
 		for (let i = 0; i < squares.length; i++) {
 			squares[i].textContent = gameBoard.text[i];
-			console.log('render ' + squares[i].textContent);
 		}
 	}
 
