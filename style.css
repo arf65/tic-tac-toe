@@ -15,7 +15,7 @@ body {
 .outerContainer {
 	margin: 5% 0;
 	width: 40%;
-	max-width: 1000px;
+	max-width: 450px;
 	display: grid;
 	align-self: center;
 	justify-self: center;
@@ -25,14 +25,14 @@ body {
 	align-self: center;
 	justify-self: center;
 	width: 100%;
-	margin-bottom: 6vw;
+	margin-bottom: 4vw;
 	display: flex;
 	justify-content: space-between;
 }
 .playerButton {
 	font-size: 2.5vw;
 	justify-content: space-between;
-	padding: 2vw 5vw;
+	padding: 1vw 4vw;
 	border-radius: 5rem;
 	background-color: cadetblue;
 }
@@ -45,7 +45,7 @@ body {
 	display: grid;
 	grid-template-rows: 1fr 1fr 1fr;
 	grid-template-columns: 1fr 1fr 1fr;
-	grid-gap: 2vw;
+	grid-gap: 1vw;
 }
 
 .square {
@@ -55,4 +55,24 @@ body {
 	text-align: center;
 	font-size: 10.5vw;
 	cursor: pointer;
+}
+
+.turnDisplay {
+	font-size: 2rem;
+	justify-self: center;
+	align-self: center;
+	margin: 2vw 0;
+}
+.turnDisplay > h2 {
+	margin: 0;
+}
+.resetButton {
+	background-color: rgb(108, 29, 145);
+	color: white;
+	width: 45%;
+	padding: 1vw 4vw;
+	font-size: 2.5vw;
+	border-radius: 5rem;
+	justify-self: center;
+	align-self: center;
 }

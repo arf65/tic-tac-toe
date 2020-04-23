@@ -4,25 +4,59 @@ const gameBoard = (() => {
 })();
 
 const displayController = (() => {
+	//determines if the spot marked should be an X or an O based on who's turn it is
 	const markSpot = () => {
+		console.log(gameBoard.text + ' after reset button');
+		turnText = document.querySelector('.turnText');
+		turnText.textContent = 'Player 1 Turn';
 		const squares = document.querySelectorAll('.square');
+		const markPlayer = player();
+		let winStatus = false;
 		for (let i = 0; i < squares.length; i++) {
-			if (gameBoard.text[i] === '') {
-				squares[i].addEventListener('click', (e) => {
-					const markPlayer = player();
-					let newMark;
-					markPlayer.playerTurn() === 'p1' ? (newMark = 'X') : (newMark = 'O');
-					gameBoard.text.splice(i, 1, newMark);
-					render();
-				});
-			}
+			squares[i].addEventListener('click', function addText() {
+				let newMark;
+				if (markPlayer.playerTurn() === 'p1') {
+					if (markPlayer.winner() === false) {
+						newMark = 'X';
+						turnText.textContent = 'Player 2 Turn';
+					}
+				}
+				if (markPlayer.playerTurn() === 'p2') {
+					if (markPlayer.winner() === false) {
+						newMark = 'O';
+						turnText.textContent = 'Player 1 Turn';
+					}
+				}
+				console.log('new mark ' + newMark);
+				gameBoard.text.splice(i, 1, newMark);
+				render();
+				winStatus = markPlayer.winner();
+				if (winStatus !== false) {
+					turnText.textContent = winStatus;
+					squares[i].removeEventListener('click', addText);
+				}
+			});
 		}
+		reset();
 	};
+	function reset() {
+		const resetButton = document.querySelector('.resetButton');
+		resetButton.addEventListener('click', function resetStuff() {
+			gameBoard.text = [ '', '', '', '', '', '', '', '', '' ];
+			console.log(gameBoard.text + ' from reset button');
+			render();
+			displayController.markSpot();
+			resetButton.removeEventListener('click', resetStuff());
+		});
+	}
+
 	//prints X's and O's onto the screen
 	function render() {
 		const squares = document.querySelectorAll('.square');
+		console.log(gameBoard.text);
 		for (let i = 0; i < squares.length; i++) {
 			squares[i].textContent = gameBoard.text[i];
+			console.log('render ' + squares[i].textContent);
 		}
 	}
 
@@ -61,25 +95,32 @@ const player = () => {
 		const indicesOfX = getAllIndices(gameBoard.text, 'X');
 		const indicesOfO = getAllIndices(gameBoard.text, 'O');
 		//compare indices of X's and O's to winning combinations
-		for (let i = 0; i < indicesOfX.length; i++) {
-			for (let x = 0; x < Object.keys(winCombos).length; x++) {
+		for (let x = 0; x < Object.keys(winCombos).length; x++) {
+			let numMatchedO = 0;
+			let numMatchedX = 0;
+			for (let i = 0; i < indicesOfX.length; i++) {
 				for (let j = 0; j < winCombos[x].length; j++) {
 					if (indicesOfX[i] === winCombos[x][j]) {
-						let numMatchedX = 0;
 						numMatchedX += 1;
-						if (numMatchedX === 3) return true;
+						if (numMatchedX === 3) {
+							return 'Player 1 Wins!';
+						}
 					}
 					if (indicesOfO[i] === winCombos[x][j]) {
-						let numMatchedO = 0;
 						numMatchedO += 1;
-						if (numMatchedO === 3) return true;
+						if (numMatchedO === 3) {
+							return 'Player 2 Wins!';
+						}
 					}
 				}
 			}
 		}
-		console.log("didn't work");
+		if (countMarked().X === 5 && countMarked().O === 4) {
+			return 'Tie!';
+		}
 		return false;
 	};
+	//private functions that are only called within player()
 	//gets all Indexes of a value in an array
 	function getAllIndices(arr, val) {
 		let indexes = [],
