@@ -12,41 +12,45 @@ const displayController = (() => {
 		const squares = document.querySelectorAll('.square');
 		const markPlayer = player();
 		let winStatus = false;
-		for (let i = 0; i < squares.length; i++) {
-			squares[i].addEventListener('click', function addText() {
-				let newMark;
-				if (markPlayer.playerTurn() === 'p1') {
-					if (markPlayer.winner() === false) {
-						newMark = 'X';
-						turnText.textContent = 'Player 2 Turn';
+		document.addEventListener('click', function printToGrid(event) {
+			if (event.target.matches('.square')) {
+				console.log(event.target);
+				for (let i = 0; i < squares.length; i++) {
+					if (event.target.matches(`.square${i}`)) {
+						let newMark;
+						if (markPlayer.playerTurn() === 'p1') {
+							if (markPlayer.winner() === false) {
+								newMark = 'X';
+								turnText.textContent = 'Player 2 Turn';
+							}
+						}
+						if (markPlayer.playerTurn() === 'p2') {
+							if (markPlayer.winner() === false) {
+								newMark = 'O';
+								turnText.textContent = 'Player 1 Turn';
+							}
+						}
+						console.log('new mark ' + newMark);
+						gameBoard.text.splice(i, 1, newMark);
+						render();
+						winStatus = markPlayer.winner();
+						if (winStatus !== false) {
+							turnText.textContent = winStatus;
+						}
 					}
 				}
-				if (markPlayer.playerTurn() === 'p2') {
-					if (markPlayer.winner() === false) {
-						newMark = 'O';
-						turnText.textContent = 'Player 1 Turn';
-					}
-				}
-				console.log('new mark ' + newMark);
-				gameBoard.text.splice(i, 1, newMark);
-				render();
-				winStatus = markPlayer.winner();
-				if (winStatus !== false) {
-					turnText.textContent = winStatus;
-					squares[i].removeEventListener('click', addText);
-				}
-			});
-		}
-		reset();
+			}
+		});
+		reset(turnText);
+		turnText.textContent = 'Player 1 Turn';
 	};
-	function reset() {
+	function reset(text) {
 		const resetButton = document.querySelector('.resetButton');
 		resetButton.addEventListener('click', function resetStuff() {
 			gameBoard.text = [ '', '', '', '', '', '', '', '', '' ];
 			console.log(gameBoard.text + ' from reset button');
+			text.textContent = 'Player 1 Turn';
 			render();
-			displayController.markSpot();
-			resetButton.removeEventListener('click', resetStuff());
 		});
 	}
 
